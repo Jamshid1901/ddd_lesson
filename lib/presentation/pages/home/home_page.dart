@@ -1,5 +1,9 @@
+import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/presentation/styles/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../infastuctura/servis/app_helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +15,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+
+  List listOfType = ["Kvartiralar", "Tijorat ko’chmas mulk", "Yangi uylar"];
+
+  List listOfDis = ["0 km", "10 km", "20 km"];
 
   @override
   void initState() {
@@ -31,7 +39,7 @@ class _HomePageState extends State<HomePage>
           unselectedLabelColor: Colors.grey,
           labelStyle: TextStyle(fontSize: 20),
           unselectedLabelStyle: TextStyle(fontSize: 16),
-          tabs: [
+          tabs: const [
             Tab(
               text: "Arenda",
             ),
@@ -43,15 +51,27 @@ class _HomePageState extends State<HomePage>
       ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 32),
-            width: double.infinity,
-            height: 200,
-            color: Styles.primaryColor,
-            child: Center(
-              child: Text(
-                "Container",
-                style: TextStyle(color: Colors.white),
+          InkWell(
+            onTap: () {
+              AppHelper.showCustomDialog(
+                context: context,
+                title: "Turi",
+                list: listOfType,
+                onSelect: (int value) {
+                  context.read<HomeCubit>().onChangeType(value);
+                },
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 32),
+              width: double.infinity,
+              height: 200,
+              color: Styles.primaryColor,
+              child: const Center(
+                child: Text(
+                  "Container",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
@@ -60,14 +80,24 @@ class _HomePageState extends State<HomePage>
               ListView(children: [
                 Text("Arenda"),
                 Text("Arenda1"),
-                Container(
-                  width: double.infinity,
-                  height: 200,
-                  color: Styles.primaryColor,
-                  child: Center(
-                    child: Text(
-                      "Container",
-                      style: TextStyle(color: Colors.white),
+                InkWell(
+                  onTap: () {
+                    AppHelper.showCustomDialog(
+                      context: context,
+                      title: "Maydoni",
+                      list: listOfDis,
+                      onSelect: (int value) {},
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 200,
+                    color: Styles.primaryColor,
+                    child: Center(
+                      child: Text(
+                        "Container",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 )

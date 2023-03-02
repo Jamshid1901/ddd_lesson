@@ -1,7 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/presentation/pages/home/home_page.dart';
 import 'package:ddd_lesson/presentation/pages/no_internet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -15,7 +17,10 @@ class AppWidget extends StatelessWidget {
             if (data.data == ConnectivityResult.mobile ||
                 data.data == ConnectivityResult.wifi) {
               // http.get("https://www.google.com/");
-              return const HomePage();
+              return BlocProvider(
+                create: (context) => HomeCubit(),
+                child: const HomePage(),
+              );
             } else {
               return const NoInternet();
             }
