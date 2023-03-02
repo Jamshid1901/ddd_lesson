@@ -5,10 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeState(typeIndex: -1));
+  HomeCubit() : super(HomeState(type: '', distance: ''));
 
-  onChangeType(int index){
-    emit(HomeState(typeIndex: index));
+  changeType(String type){
+    emit(state.copyWith(type: type));
+  }
+
+  changeDis(String dis){
+    emit(state.copyWith(distance: dis));
   }
 
 }

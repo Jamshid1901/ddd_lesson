@@ -1,3 +1,5 @@
+import 'package:ddd_lesson/application/filter_cubit/filter_cubit.dart';
+import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/presentation/styles/styles.dart';
 import 'package:flutter/material.dart';
@@ -51,29 +53,38 @@ class _HomePageState extends State<HomePage>
       ),
       body: Column(
         children: [
-          InkWell(
-            onTap: () {
-              AppHelper.showCustomDialog(
-                context: context,
-                title: "Turi",
-                list: listOfType,
-                onSelect: (int value) {
-                  context.read<HomeCubit>().onChangeType(value);
+          BlocBuilder<HomeCubit, HomeState>(
+            builder: (context, state) {
+              return InkWell(
+                onTap: () {
+                  AppHelper.showCustomDialog(
+                    initIndex: listOfType.indexOf(state.type),
+                    context: context,
+                    title: "Turi",
+                    list: listOfType,
+                    onSelect: (int index) {
+                      context.read<HomeCubit>().changeType(listOfType[index]);
+                    },
+                  );
                 },
+                child: Container(
+                  margin: EdgeInsets.only(top: 32),
+                  width: double.infinity,
+                  height: 200,
+                  color: Styles.primaryColor,
+                  child: Center(
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return Text(
+                          state.type,
+                          style: TextStyle(color: Colors.white),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               );
             },
-            child: Container(
-              margin: EdgeInsets.only(top: 32),
-              width: double.infinity,
-              height: 200,
-              color: Styles.primaryColor,
-              child: const Center(
-                child: Text(
-                  "Container",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
           ),
           Expanded(
             child: TabBarView(controller: tabController, children: [
@@ -87,6 +98,7 @@ class _HomePageState extends State<HomePage>
                       title: "Maydoni",
                       list: listOfDis,
                       onSelect: (int value) {},
+                      initIndex: 0,
                     );
                   },
                   child: Container(
@@ -94,9 +106,13 @@ class _HomePageState extends State<HomePage>
                     height: 200,
                     color: Styles.primaryColor,
                     child: Center(
-                      child: Text(
-                        "Container",
-                        style: TextStyle(color: Colors.white),
+                      child: BlocBuilder<HomeCubit, HomeState>(
+                        builder: (context, state) {
+                          return Text(
+                            state.distance,
+                            style: TextStyle(color: Colors.white),
+                          );
+                        },
                       ),
                     ),
                   ),
