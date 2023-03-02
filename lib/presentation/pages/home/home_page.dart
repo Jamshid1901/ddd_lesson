@@ -1,6 +1,7 @@
 import 'package:ddd_lesson/application/filter_cubit/filter_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
+import 'package:ddd_lesson/domain/model/room_model.dart';
 import 'package:ddd_lesson/presentation/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage>
 
   List listOfType = ["Kvartiralar", "Tijorat ko’chmas mulk", "Yangi uylar"];
 
-  List listOfDis = ["0 km", "10 km", "20 km"];
+  List listOfDis = ["0 kv", "10 kv", "20 kv"];
 
   @override
   void initState() {
@@ -65,10 +66,11 @@ class _HomePageState extends State<HomePage>
                     onSelect: (int index) {
                       context.read<HomeCubit>().changeType(listOfType[index]);
                     },
+                    onSelectList: (List<dynamic>? value) {},
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 32),
+                  margin: const EdgeInsets.only(top: 32),
                   width: double.infinity,
                   height: 200,
                   color: Styles.primaryColor,
@@ -95,10 +97,12 @@ class _HomePageState extends State<HomePage>
                   onTap: () {
                     AppHelper.showCustomDialog(
                       context: context,
-                      title: "Maydoni",
-                      list: listOfDis,
+                      title: "Xona",
+                      multiSelected: true,
+                      list: [],
                       onSelect: (int value) {},
                       initIndex: 0,
+                      onSelectList: (List<dynamic>? value) {},
                     );
                   },
                   child: Container(
@@ -106,11 +110,21 @@ class _HomePageState extends State<HomePage>
                     height: 200,
                     color: Styles.primaryColor,
                     child: Center(
-                      child: BlocBuilder<HomeCubit, HomeState>(
+                      child: BlocBuilder<FilterCubit, FilterState>(
                         builder: (context, state) {
-                          return Text(
-                            state.distance,
-                            style: TextStyle(color: Colors.white),
+                          return Row(
+                            children: [
+                              ...state.listOfRoom!.map((e) {
+                                if ((e as Room).isActive) {
+                                  return Text(
+                                    (e as Room).title,
+                                    style: TextStyle(color: Colors.white),
+                                  );
+                                } else {
+                                  return Text("");
+                                }
+                              }).toList()
+                            ],
                           );
                         },
                       ),
