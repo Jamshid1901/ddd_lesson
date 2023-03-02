@@ -22,8 +22,15 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
         bottom: TabBar(
           controller: tabController,
+          indicatorColor: Styles.primaryColor,
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey,
+          labelStyle: TextStyle(fontSize: 20),
+          unselectedLabelStyle: TextStyle(fontSize: 16),
           tabs: [
             Tab(
               text: "Arenda",
@@ -37,6 +44,7 @@ class _HomePageState extends State<HomePage>
       body: Column(
         children: [
           Container(
+            margin: EdgeInsets.only(top: 32),
             width: double.infinity,
             height: 200,
             color: Styles.primaryColor,
@@ -48,8 +56,7 @@ class _HomePageState extends State<HomePage>
             ),
           ),
           Expanded(
-            child: TabBarView(controller: tabController,
-                children: [
+            child: TabBarView(controller: tabController, children: [
               ListView(children: [
                 Text("Arenda"),
                 Text("Arenda1"),
