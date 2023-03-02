@@ -23,6 +23,11 @@ class _HomePageState extends State<HomePage>
 
   List listOfDis = ["0 kv", "10 kv", "20 kv"];
 
+  // List<Room> listOfRoom = [Room(title: "1 xona"),Room(title: "2 xona")];
+
+  List<Room> listOfRoom =
+      List.generate(6, (index) => Room(title: "$index xona"));
+
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -99,10 +104,13 @@ class _HomePageState extends State<HomePage>
                       context: context,
                       title: "Xona",
                       multiSelected: true,
-                      list: [],
+                      list: listOfRoom,
                       onSelect: (int value) {},
                       initIndex: 0,
-                      onSelectList: (List<dynamic>? value) {},
+                      onSelectList: (List<dynamic>? value) {
+                        listOfRoom = value as List<Room>;
+                        context.read<HomeCubit>().refresh();
+                      },
                     );
                   },
                   child: Container(
@@ -110,20 +118,19 @@ class _HomePageState extends State<HomePage>
                     height: 200,
                     color: Styles.primaryColor,
                     child: Center(
-                      child: BlocBuilder<FilterCubit, FilterState>(
+                      child: BlocBuilder<HomeCubit, HomeState>(
                         builder: (context, state) {
                           return Row(
                             children: [
-                              ...state.listOfRoom!.map((e) {
-                                if ((e as Room).isActive) {
-                                  return Text(
-                                    (e as Room).title,
-                                    style: TextStyle(color: Colors.white),
-                                  );
-                                } else {
-                                  return Text("");
-                                }
-                              }).toList()
+                              ...listOfRoom.map((e) {
+                                return e.isActive
+                                    ? Text(
+                                        e.title,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      )
+                                    : const SizedBox.shrink();
+                              }),
                             ],
                           );
                         },

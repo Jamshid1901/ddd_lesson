@@ -9,11 +9,8 @@ class FilterCubit extends Cubit<FilterState> {
   FilterCubit(int index, {List? list})
       : super(FilterState(typeIndex: index, listOfRoom: list));
 
-  List<Room> listOfRoom =
-      List.generate(6, (index) => Room(title: "$index xona"));
-
   onChangeType(int index) {
-    emit(state.copyWith(typeIndex: index, list: listOfRoom));
+    emit(FilterState(typeIndex: index));
   }
 
   onChangeList(int index) {

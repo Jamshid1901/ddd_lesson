@@ -18,16 +18,9 @@ class AppWidget extends StatelessWidget {
             if (data.data == ConnectivityResult.mobile ||
                 data.data == ConnectivityResult.wifi) {
               // http.get("https://www.google.com/");
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) => HomeCubit(),
-                  ),
-                  BlocProvider(
-                    create: (context) => FilterCubit(-1,list: []),
-                  )
-                ],
-                child: HomePage(),
+              return BlocProvider(
+                create: (context) => HomeCubit(),
+                child: const HomePage(),
               );
             } else {
               return const NoInternet();
@@ -38,6 +31,7 @@ class AppWidget extends StatelessWidget {
 }
 
 abstract class AppConnectivity {
+
   AppConnectivity._();
 
   static Future<bool> connectivity() async {

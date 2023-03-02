@@ -17,8 +17,8 @@ abstract class AppHelper {
     showDialog(
         context: context,
         builder: (con) {
-          return BlocProvider.value(
-            value: BlocProvider.of<FilterCubit>(context),
+          return BlocProvider(
+            create: (context) => FilterCubit(initIndex, list: list),
             child: AlertDialog(
               title: Text(title),
               content: SizedBox(
@@ -93,9 +93,9 @@ abstract class AppHelper {
                   builder: (context, state) {
                     return ElevatedButton(
                         onPressed: () {
-                          !multiSelected
-                              ? onSelect(state.typeIndex)
-                              : onSelectList(state.listOfRoom);
+                          !multiSelected ?
+                          onSelect(state.typeIndex) :
+                          onSelectList(state.listOfRoom);
                           Navigator.pop(context);
                         },
                         child: const Text("Save"));
