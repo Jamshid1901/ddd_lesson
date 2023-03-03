@@ -14,4 +14,12 @@ abstract class Routes {
       ),
     );
   }
+
+  static PageRoute goNoInternetWithoutBloc({String? type}) {
+    return MaterialPageRoute(
+      builder: (_) => const NoInternet(),
+    );
+  }
 }
+
+
