@@ -10,7 +10,9 @@ import 'route.gr.dart';
 
 class AppWidget extends StatelessWidget {
    AppWidget({Key? key}) : super(key: key);
+
   final appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
