@@ -2,11 +2,13 @@ import 'package:ddd_lesson/application/filter_cubit/filter_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/domain/model/room_model.dart';
+import 'package:ddd_lesson/presentation/routes.dart';
 import 'package:ddd_lesson/presentation/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../infastuctura/servis/app_helper.dart';
+import '../no_internet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -97,7 +99,14 @@ class _HomePageState extends State<HomePage>
             child: TabBarView(controller: tabController, children: [
               ListView(children: [
                 Text("Arenda"),
-                Text("Arenda1"),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        Routes.goNoInternet(type: "1"),
+                      );
+                    },
+                    child: Text("Arenda1")),
                 InkWell(
                   onTap: () {
                     AppHelper.showCustomDialog(
