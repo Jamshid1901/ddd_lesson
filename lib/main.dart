@@ -10,7 +10,7 @@ void main() {
       statusBarBrightness: Brightness.dark,
     ),
   );
-  runApp(const AppWidget());
+  runApp( AppWidget());
 }
 
 

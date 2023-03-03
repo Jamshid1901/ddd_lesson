@@ -6,26 +6,30 @@ import 'package:ddd_lesson/presentation/pages/no_internet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AppWidget extends StatelessWidget {
-  const AppWidget({Key? key}) : super(key: key);
+import 'route.gr.dart';
 
+class AppWidget extends StatelessWidget {
+   AppWidget({Key? key}) : super(key: key);
+  final appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: StreamBuilder(
-          stream: Connectivity().onConnectivityChanged,
-          builder: (context, data) {
-            if (data.data == ConnectivityResult.mobile ||
-                data.data == ConnectivityResult.wifi) {
-              // http.get("https://www.google.com/");
-              return BlocProvider(
-                create: (context) => HomeCubit(),
-                child: const HomePage(),
-              );
-            } else {
-              return const NoInternet();
-            }
-          }),
+    return MaterialApp.router(
+      routerDelegate: appRouter.delegate(),
+      routeInformationParser: appRouter.defaultRouteParser(),
+      // home: StreamBuilder(
+      //     stream: Connectivity().onConnectivityChanged,
+      //     builder: (context, data) {
+      //       if (data.data == ConnectivityResult.mobile ||
+      //           data.data == ConnectivityResult.wifi) {
+      //         // http.get("https://www.google.com/");
+      //         return BlocProvider(
+      //           create: (context) => HomeCubit(),
+      //           child: const HomePage(),
+      //         );
+      //       } else {
+      //         return const NoInternet();
+      //       }
+      //     }),
     );
   }
 }

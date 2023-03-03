@@ -6,18 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 abstract class Routes {
   Routes._();
 
-  static PageRoute goNoInternet({String? type}) {
+  static PageRoute goNoInternet({String? id}) {
     return MaterialPageRoute(
       builder: (_) => BlocProvider(
-        create: (context) => HomeCubit()..changeType(type ?? ""),
-        child: const NoInternet(),
+        create: (context) => HomeCubit()..changeType(id ?? ""),
+        child: const NoInternetPage(),
       ),
     );
   }
 
   static PageRoute goNoInternetWithoutBloc({String? type}) {
     return MaterialPageRoute(
-      builder: (_) => const NoInternet(),
+      builder: (_) => const NoInternetPage(),
     );
   }
 }
