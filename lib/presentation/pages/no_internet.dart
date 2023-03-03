@@ -6,6 +6,7 @@ class NoInternetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("NoInternetPage");
     return Scaffold(
       appBar: AppBar(),
       body: const Center(child: Text("No Internet"),),

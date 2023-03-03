@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    print("HomePage");
     return BlocProvider(
       create: (context) => HomeCubit(),
       child: Scaffold(
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage>
                   Text("Arenda"),
                   TextButton(
                       onPressed: () {
-                        context.pushRoute(const NoInternetRoute());
+                        context.pushRoute(const SeeAllRoute());
                       },
                       child: Text("Arenda1")),
                   InkWell(
