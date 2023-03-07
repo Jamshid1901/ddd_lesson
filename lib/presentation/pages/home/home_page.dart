@@ -4,6 +4,7 @@ import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/domain/model/room_model.dart';
 import 'package:ddd_lesson/presentation/components/zoom_tab_animation.dart';
+import 'package:ddd_lesson/presentation/pages/home/admob_page.dart';
 import 'package:ddd_lesson/presentation/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       'StartLoading'
                     ],
                     antialiasing: false,
-                    controllers: [_controller,_controllerTwo],
+                    controllers: [_controller, _controllerTwo],
                   ),
                 ),
                 ListView(children: [
@@ -179,8 +180,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           children: [
             FloatingActionButton(
               onPressed: () {
-                isPlaying ? null : _controller.isActive = true;
-                setState(() {});
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const AdmobPage()));
+                // isPlaying ? null : _controller.isActive = true;
+                // setState(() {});
               },
               tooltip: isPlaying ? 'Pause' : 'Play',
               child: Icon(

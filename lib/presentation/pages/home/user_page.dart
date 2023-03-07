@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:ddd_lesson/presentation/components/zoom_tab_animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -16,18 +17,33 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   late ConfettiController _controllerCenter;
+  final ScrollController scrollController = ScrollController();
   bool isGridView = false;
 
   @override
   void initState() {
     _controllerCenter =
         ConfettiController(duration: const Duration(seconds: 10));
+    scrollController.addListener(() {
+      print("object1 offset : ${scrollController.offset}");
+      print("object1 min : ${scrollController.position.minScrollExtent}");
+      print("object1 min : ${scrollController.position.pixels}");
+      print("object2 : ${scrollController.offset}");
+      print("object3 : ${scrollController.initialScrollOffset}");
+      final direction = scrollController.position.userScrollDirection;
+      if (direction == ScrollDirection.reverse) {
+        print("reverse");
+      } else if (direction == ScrollDirection.forward) {
+        print("forward");
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
     _controllerCenter.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -62,7 +78,9 @@ class _UserPageState extends State<UserPage> {
         actions: [
           IconButton(
             onPressed: () {
-              isGridView = !isGridView;
+              scrollController.animateTo(1909,
+                  duration: Duration(milliseconds: 750),
+                  curve: Curves.bounceIn);
               setState(() {});
             },
             icon: const Icon(Icons.menu),
@@ -72,6 +90,7 @@ class _UserPageState extends State<UserPage> {
       body: !isGridView
           ? AnimationLimiter(
               child: ListView.builder(
+                  controller: scrollController,
                   itemCount: 32,
                   itemBuilder: (context, index) {
                     return AnimationConfiguration.staggeredList(
@@ -85,6 +104,7 @@ class _UserPageState extends State<UserPage> {
                               height: 64,
                               margin: const EdgeInsets.all(8),
                               color: Colors.lightBlueAccent,
+                              child: Text(index.toString()),
                             ),
                           ),
                         ),
@@ -134,7 +154,7 @@ class _UserPageState extends State<UserPage> {
         child: FloatingActionButton(
           onPressed: () {
             _controllerCenter.play();
-            Future.delayed(const Duration(seconds: 1),(){
+            Future.delayed(const Duration(seconds: 1), () {
               _controllerCenter.stop();
             });
 
