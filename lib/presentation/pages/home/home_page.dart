@@ -3,10 +3,12 @@ import 'package:ddd_lesson/application/filter_cubit/filter_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/application/home_cubit/home_cubit.dart';
 import 'package:ddd_lesson/domain/model/room_model.dart';
+import 'package:ddd_lesson/presentation/components/zoom_tab_animation.dart';
 import 'package:ddd_lesson/presentation/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ddd_lesson/presentation/route.gr.dart';
+import 'package:rive/rive.dart';
 import '../../../infastuctura/servis/app_helper.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,10 +18,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late TabController tabController;
-
+  late RiveAnimationController _controller;
+  late RiveAnimationController _controllerTwo;
   List listOfType = ["Kvartiralar", "Tijorat ko’chmas mulk", "Yangi uylar"];
 
   List listOfDis = ["0 kv", "10 kv", "20 kv"];
@@ -29,9 +31,19 @@ class _HomePageState extends State<HomePage>
   List<Room> listOfRoom =
       List.generate(6, (index) => Room(title: "$index xona"));
 
+  bool isPlaying = false;
+
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
+    _controller = OneShotAnimation(
+      'StartLoading',
+      autoplay: false,
+      onStop: () => setState(() => isPlaying = false),
+      onStart: () => setState(() => isPlaying = true),
+    );
+
+    _controllerTwo = SimpleAnimation("FinishLoading", autoplay: false);
     super.initState();
   }
 
@@ -99,6 +111,18 @@ class _HomePageState extends State<HomePage>
             ),
             Expanded(
               child: TabBarView(controller: tabController, children: [
+                SardorAnimation(
+                  child: RiveAnimation.asset(
+                    'assets/ball_loader.riv',
+                    animations: const [
+                      "FinishLoading",
+                      'Loading',
+                      'StartLoading'
+                    ],
+                    antialiasing: false,
+                    controllers: [_controller,_controllerTwo],
+                  ),
+                ),
                 ListView(children: [
                   Text("Arenda"),
                   TextButton(
@@ -147,9 +171,27 @@ class _HomePageState extends State<HomePage>
                     ),
                   )
                 ]),
-                Text("Sotib olish"),
               ]),
             ),
+          ],
+        ),
+        floatingActionButton: Row(
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                isPlaying ? null : _controller.isActive = true;
+                setState(() {});
+              },
+              tooltip: isPlaying ? 'Pause' : 'Play',
+              child: Icon(
+                isPlaying ? Icons.pause : Icons.play_arrow,
+              ),
+            ),
+            FloatingActionButton(onPressed: () {
+              _controller.dispose();
+              _controllerTwo.isActive = true;
+              _controllerTwo.dispose();
+            })
           ],
         ),
       ),

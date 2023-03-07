@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class NoInternetPage extends StatelessWidget {
   const NoInternetPage({Key? key}) : super(key: key);
@@ -9,7 +10,12 @@ class NoInternetPage extends StatelessWidget {
     print("NoInternetPage");
     return Scaffold(
       appBar: AppBar(),
-      body: const Center(child: Text("No Internet"),),
+      body:  Center(child: Column(
+        children: [
+          Text("No Internet"),
+          Lottie.asset("assets/noInternet.json")
+        ],
+      ),),
     );
   }
 }
