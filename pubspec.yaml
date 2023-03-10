@@ -44,6 +44,10 @@ dependencies:
   top_snackbar_flutter: ^2.1.1
   confetti: ^0.7.0
   google_mobile_ads: ^2.3.0
+  flutter_masked_text2: ^0.9.1
+  firebase_messaging: ^14.2.6
+  firebase_core: ^2.7.1
+  http: ^0.13.5
 
 
 dev_dependencies:

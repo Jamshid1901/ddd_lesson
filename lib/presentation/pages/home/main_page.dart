@@ -14,6 +14,7 @@ class DashboardPage extends StatelessWidget {
       builder: (context, child, animation) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: FadeTransition(
               opacity: animation,
               child: child,
